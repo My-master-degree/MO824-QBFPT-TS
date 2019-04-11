@@ -3,10 +3,14 @@ package problems.qbf.solvers;
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import metaheuristics.tabusearch.AbstractTS;
 import problems.qbf.QBF_Inverse;
 import solutions.Solution;
+import triple.Triple;
+import triple.TripleElement;
 
 
 
@@ -21,6 +25,17 @@ import solutions.Solution;
 public class TS_QBFPT extends AbstractTS<Integer> {
 	
 	private final Integer fake = new Integer(-1);
+	
+	/**
+     * List of element objects used in prohibited triples. These objects
+     * represents the variables of the model.
+     */
+    private TripleElement[] tripleElements;
+
+    /**
+     * List of prohibited triples.
+     */
+    private Triple[] triples; 
 
 	/**
 	 * Constructor for the TS_QBF class. An inverse QBF objective function is
@@ -40,21 +55,24 @@ public class TS_QBFPT extends AbstractTS<Integer> {
 		super(new QBF_Inverse(filename), tenure, iterations);
 	}
 
-	/* (non-Javadoc)
-	 * @see metaheuristics.tabusearch.AbstractTS#makeCL()
-	 */
-	@Override
-	public ArrayList<Integer> makeCL() {
+    /**
+     * A GRASP CL generator for MAXQBFPT problem
+     *
+     * @return A list of candidates to partial solution
+     */
+    @Override
+    public ArrayList<Integer> makeCL() {
+        int n = ObjFunction.getDomainSize();
+        ArrayList<Integer> _CL = new ArrayList<Integer>(n);
 
-		ArrayList<Integer> _CL = new ArrayList<Integer>();
-		for (int i = 0; i < ObjFunction.getDomainSize(); i++) {
-			Integer cand = new Integer(i);
-			_CL.add(cand);
-		}
+        for (TripleElement tripElem : this.tripleElements) {
+            tripElem.setAvailable(true);
+            tripElem.setSelected(false);
+            _CL.add(tripElem.getIndex());
+        }
 
-		return _CL;
-
-	}
+        return _CL;
+    }
 
 	/* (non-Javadoc)
 	 * @see metaheuristics.tabusearch.AbstractTS#makeRCL()
@@ -83,16 +101,118 @@ public class TS_QBFPT extends AbstractTS<Integer> {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see metaheuristics.tabusearch.AbstractTS#updateCL()
-	 */
 	@Override
-	public void updateCL() {
+    public void updateCL() {
+        ArrayList<Integer> _CL = new ArrayList<Integer>();
 
-		// do nothing
+        if (this.incumbentSol != null) {
+            for (Integer e : this.incumbentSol) {
+                this.tripleElements[e].setSelected(true);
+                this.tripleElements[e].setAvailable(false);
+            }
+        }
 
-	}
+        for (Triple trip : this.triples) {
+            TripleElement te0, te1, te2;
+            te0 = trip.getElements().get(0);
+            te1 = trip.getElements().get(1);
+            te2 = trip.getElements().get(2);
 
+            if (te0.getSelected() && te1.getSelected()) {
+                te2.setAvailable(false);
+            } else if (te0.getSelected() && te2.getSelected()) {
+                te1.setAvailable(false);
+            } else if (te1.getSelected() && te2.getSelected()) {
+                te0.setAvailable(false);
+            }
+        }
+
+        for (TripleElement tripElem : this.tripleElements) {
+            if (!tripElem.getSelected() && tripElem.getAvailable()) {
+                _CL.add(tripElem.getIndex());
+            }
+        }
+
+        this.CL = _CL;
+    }
+	
+	private void generateTripleElements() {
+        int n = ObjFunction.getDomainSize();
+        this.tripleElements = new TripleElement[n];
+
+        for (int i = 0; i < n; i++) {
+            tripleElements[i] = new TripleElement(i);
+        }
+    }
+	
+
+    /**
+     * Linear congruent function l used to generate pseudo-random numbers.
+     */
+    public int l(int pi1, int pi2, int u, int n) {
+        return 1 + ((pi1 * u + pi2) % n);
+    }
+
+    /**
+     * Function g used to generate pseudo-random numbers
+     */
+    public int g(int u, int n) {
+        int pi1 = 131;
+        int pi2 = 1031;
+        int lU = l(pi1, pi2, u, n);
+
+        if (lU != u) {
+            return lU;
+        } else {
+            return 1 + (lU % n);
+        }
+    }
+
+    /**
+     * Function h used to generate pseudo-random numbers
+     */
+    public int h(int u, int n) {
+        int pi1 = 193;
+        int pi2 = 1093;
+        int lU = l(pi1, pi2, u, n);
+        int gU = g(u, n);
+
+        if (lU != u && lU != gU) {
+            return lU;
+        } else if ((1 + (lU % n)) != u && (1 + (lU % n)) != gU) {
+            return 1 + (lU % n);
+        } else {
+            return 1 + ((lU + 1) % n);
+        }
+    }
+
+    /**
+     * Method that generates a list of n prohibited triples using l g and h
+     * functions
+     */
+    private void generateTriples() {
+        int n = ObjFunction.getDomainSize();
+        this.triples = new Triple[ObjFunction.getDomainSize()];
+
+        for (int u = 1; u <= n; u++) {
+            TripleElement te1, te2, te3;
+            Triple novaTripla;
+
+            te1 = tripleElements[u - 1];
+            te2 = tripleElements[g(u - 1, n) - 1];
+            te3 = tripleElements[h(u - 1, n) - 1];
+            novaTripla = new Triple(te1, te2, te3);
+            
+            Collections.sort(novaTripla.getElements(), new Comparator<TripleElement>() {
+                public int compare(TripleElement te1, TripleElement te2) {
+                    return te1.getIndex().compareTo(te2.getIndex());
+                }
+            });
+            //novaTripla.printTriple();
+            this.triples[u-1] = novaTripla;
+        }
+    }
+    
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -186,6 +306,8 @@ public class TS_QBFPT extends AbstractTS<Integer> {
 
 		long startTime = System.currentTimeMillis();
 		TS_QBFPT tabusearch = new TS_QBFPT(20, 10000, "instances/qbf100");
+		tabusearch.generateTripleElements();
+		tabusearch.generateTriples();
 		Solution<Integer> bestSol = tabusearch.solve();
 		System.out.println("maxVal = " + bestSol);
 		long endTime   = System.currentTimeMillis();
