@@ -12,11 +12,13 @@ public class TripleElement {
     public final Integer index; //The index of the variable
     public Boolean selected; //If the element is already selected in the partial solution
     public Boolean available; // If the element is available to be inserted into the partial solution
+    public Integer usedInIterations;
 
     public TripleElement(int index) {
         this.index = index;
         this.selected = false;
         this.available = true;
+        this.usedInIterations = 0;
     }
 
 	public Boolean getSelected() {
