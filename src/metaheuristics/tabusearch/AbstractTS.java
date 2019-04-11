@@ -157,10 +157,11 @@ public abstract class AbstractTS<E> {
 	 */
 	public Solution<E> constructiveHeuristic() {
 
-		CL = makeCL();
-		RCL = makeRCL();
 		incumbentSol = createEmptySol();
 		incumbentCost = Double.POSITIVE_INFINITY;
+		CL = makeCL();
+		RCL = makeRCL();
+		
 
 		/* Main loop, which repeats until the stopping criteria is reached. */
 		while (!constructiveStopCriteria()) {
