@@ -5,10 +5,9 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Map;
+import java.util.Random;
 
 import metaheuristics.tabusearch.AbstractTS;
-import metaheuristics.tabusearch.DiversificationRestartTS;
 import problems.qbf.QBF_Inverse;
 import solutions.Solution;
 import triple.Triple;
@@ -24,9 +23,21 @@ import triple.TripleElement;
  * 
  * @author ccavellucci, fusberti
  */
-public class TS_Diversification_Restart_QBFPT extends DiversificationRestartTS<Integer> {		
+public class TS_Probabilistic_QBFPT extends AbstractTS<Integer> {
 	
 	private final Integer fake = new Integer(-1);
+	
+	/**
+     * List of element objects used in prohibited triples. These objects
+     * represents the variables of the model.
+     */
+    private TripleElement[] tripleElements;
+
+    /**
+     * List of prohibited triples.
+     */
+    private Triple[] triples; 
+
 	/**
 	 * Constructor for the TS_QBF class. An inverse QBF objective function is
 	 * passed as argument for the superclass constructor.
@@ -41,8 +52,8 @@ public class TS_Diversification_Restart_QBFPT extends DiversificationRestartTS<I
 	 * @throws IOException
 	 *             necessary for I/O operations.
 	 */
-	public TS_Diversification_Restart_QBFPT(Integer tenure, Integer iterations, String filename, Integer qttIterationsToDeversi) throws IOException {
-		super(new QBF_Inverse(filename), tenure, iterations, qttIterationsToDeversi);
+	public TS_Probabilistic_QBFPT(Integer tenure, Integer iterations, String filename) throws IOException {
+		super(new QBF_Inverse(filename), tenure, iterations);
 	}
 
     /**
@@ -55,7 +66,7 @@ public class TS_Diversification_Restart_QBFPT extends DiversificationRestartTS<I
         int n = ObjFunction.getDomainSize();
         ArrayList<Integer> _CL = new ArrayList<Integer>(n);
 
-        for (TripleElement tripElem : super.tripleElements) {
+        for (TripleElement tripElem : this.tripleElements) {
             tripElem.setAvailable(true);
             tripElem.setSelected(false);
             _CL.add(tripElem.getIndex());
@@ -225,44 +236,63 @@ public class TS_Diversification_Restart_QBFPT extends DiversificationRestartTS<I
 	 */
 	@Override
 	public Solution<Integer> neighborhoodMove() {
-
+		
+//		generate insertion neighborhood subset		
+		Random random = new Random();
+		Integer k = CL.size()/2;
+		Integer[] insertionMovements = new Integer[k];		
+		for (int i = 0; i < k; i++) {
+			insertionMovements[i] = CL.get(random.nextInt(CL.size()));
+		}
+//		insertions
 		Double minDeltaCost;
 		Integer bestCandIn = null, bestCandOut = null;
 
 		minDeltaCost = Double.POSITIVE_INFINITY;
 		updateCL();
 		// Evaluate insertions
-		for (Integer candIn : CL) {
+		for (Integer candIn : insertionMovements) {
 			Double deltaCost = ObjFunction.evaluateInsertionCost(candIn, incumbentSol);
 			if (!TL.contains(candIn) || incumbentSol.cost+deltaCost < bestSol.cost) {
 				if (deltaCost < minDeltaCost) {
 					minDeltaCost = deltaCost;
-					bestCandIn = candIn;					
+					bestCandIn = candIn;
 					bestCandOut = null;
 				}
 			}
 		}
+//		generate removals neighborhood subset	
+		k = incumbentSol.size()/2;
+		Integer[] removalsMovements = new Integer[k];		
+		for (int i = 0; i < k; i++) {
+			removalsMovements[i] = incumbentSol.get(random.nextInt(incumbentSol.size()));
+		}				
 		// Evaluate removals
-		for (Integer candOut : incumbentSol) {
+		for (Integer candOut : removalsMovements) {
 			Double deltaCost = ObjFunction.evaluateRemovalCost(candOut, incumbentSol);
 			if (!TL.contains(candOut) || incumbentSol.cost+deltaCost < bestSol.cost) {
 				if (deltaCost < minDeltaCost) {
 					minDeltaCost = deltaCost;
-					bestCandIn = null;					
+					bestCandIn = null;
 					bestCandOut = candOut;
 				}
 			}
 		}
+//		generate exchanges neighborhood subset	
+		k = (CL.size()*incumbentSol.size())/2;
+		Integer[][] exchangesMovements = new Integer[k][2];		
+		for (int i = 0; i < k; i++) {
+			exchangesMovements[i][0] = CL.get(random.nextInt(CL.size()));
+			exchangesMovements[i][1] = incumbentSol.get(random.nextInt(incumbentSol.size()));
+		}			
 		// Evaluate exchanges
-		for (Integer candIn : CL) {
-			for (Integer candOut : incumbentSol) {
-				Double deltaCost = ObjFunction.evaluateExchangeCost(candIn, candOut, incumbentSol);
-				if ((!TL.contains(candIn) && !TL.contains(candOut)) || incumbentSol.cost+deltaCost < bestSol.cost) {
-					if (deltaCost < minDeltaCost) {
-						minDeltaCost = deltaCost;
-						bestCandIn = candIn;
-						bestCandOut = candOut;
-					}
+		for (Integer[] pair : exchangesMovements) {
+			Double deltaCost = ObjFunction.evaluateExchangeCost(pair[0], pair[1], incumbentSol);
+			if ((!TL.contains(pair[0]) && !TL.contains(pair[1])) || incumbentSol.cost+deltaCost < bestSol.cost) {
+				if (deltaCost < minDeltaCost) {
+					minDeltaCost = deltaCost;
+					bestCandIn = pair[0];
+					bestCandOut = pair[1];
 				}
 			}
 		}
@@ -271,19 +301,24 @@ public class TS_Diversification_Restart_QBFPT extends DiversificationRestartTS<I
 		if (bestCandOut != null) {
 			incumbentSol.remove(bestCandOut);
 			CL.add(bestCandOut);
-			TL.add(bestCandOut);			
+			TL.add(bestCandOut);
 		} else {
-			TL.add(fake);			
+			TL.add(fake);
 		}
 		TL.poll();
 		if (bestCandIn != null) {
 			incumbentSol.add(bestCandIn);
 			CL.remove(bestCandIn);
 			TL.add(bestCandIn);
-			this.tripleElements[bestCandIn].usedInIterations++;
 		} else {
 			TL.add(fake);
 		}
+		if (incumbentSol.size() > 100) {
+			System.out.println("Size " + incumbentSol.size());
+			System.out.println("Current list " + incumbentSol.toString());
+			System.out.println("Added "+bestCandIn+ " ");			
+			System.out.println("Removed "+bestCandOut);
+		}		
 		ObjFunction.evaluate(incumbentSol);
 		
 		return null;
@@ -296,7 +331,7 @@ public class TS_Diversification_Restart_QBFPT extends DiversificationRestartTS<I
 	public static void main(String[] args) throws IOException {
 
 		long startTime = System.currentTimeMillis();
-		TS_Diversification_Restart_QBFPT tabusearch = new TS_Diversification_Restart_QBFPT(20, 10000, "instances/qbf100", 100);
+		TS_Probabilistic_QBFPT tabusearch = new TS_Probabilistic_QBFPT(20, 10000, "instances/qbf100");
 		tabusearch.generateTripleElements();
 		tabusearch.generateTriples();
 		Solution<Integer> bestSol = tabusearch.solve();

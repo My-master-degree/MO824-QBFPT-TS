@@ -179,7 +179,6 @@ public class QBF implements Evaluator<Integer> {
 	 *         removal.
 	 */
 	public Double evaluateRemovalQBF(int i) {
-
 		if (variables[i] == 0)
 			return 0.0;
 

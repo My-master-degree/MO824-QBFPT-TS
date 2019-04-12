@@ -219,7 +219,8 @@ public abstract class AbstractTS<E> {
 		constructiveHeuristic();
 		TL = makeTL();
 		for (int i = 0; i < iterations; i++) {
-			neighborhoodMove();
+			updateCL();
+			neighborhoodMove();			
 			if (bestSol.cost > incumbentSol.cost) {
 				bestSol = new Solution<E>(incumbentSol);
 				if (verbose)

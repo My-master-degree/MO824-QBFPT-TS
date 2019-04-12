@@ -5,10 +5,13 @@ package metaheuristics.tabusearch;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import problems.Evaluator;
 import solutions.Solution;
+import triple.Triple;
+import triple.TripleElement;
 
 /**
  * Abstract class for metaheuristic Tabu Search. It consider a minimization problem.
@@ -18,7 +21,18 @@ import solutions.Solution;
  *            Generic type of the candidate to enter the solution.
  */
 public abstract class DiversificationRestartTS<E> {
+	
+	/**
+     * List of element objects used in prohibited triples. These objects
+     * represents the variables of the model.
+     */
+	protected TripleElement[] tripleElements;
 
+    /**
+     * List of prohibited triples.
+     */
+    protected Triple[] triples;
+	
 	/**
 	 * flag that indicates whether the code should print more information on
 	 * screen
@@ -148,7 +162,7 @@ public abstract class DiversificationRestartTS<E> {
 		this.ObjFunction = objFunction;
 		this.tenure = tenure;
 		this.iterations = iterations;
-		this.qttIterationsToDeversi = qttIterationsToDeversi;
+		this.qttIterationsToDeversi = qttIterationsToDeversi;		
 	}
 
 	/**
@@ -216,11 +230,10 @@ public abstract class DiversificationRestartTS<E> {
 	 * 
 	 * @return The best feasible solution obtained throughout all iterations.
 	 */
-	public Solution<E> solve() {
-
-		bestSol = createEmptySol();
+	public Solution<E> solve() {		
+		bestSol = createEmptySol();		
 		constructiveHeuristic();
-		TL = makeTL();
+		TL = makeTL();		
 		for (int i = 0; i < iterations; i++) {
 			if ((i%qttIterationsToDeversi) == 0) {
 				this.diversify();
@@ -235,10 +248,16 @@ public abstract class DiversificationRestartTS<E> {
 
 		return bestSol;
 	}
-
-	private void diversify() {
-		// TODO Auto-generated method stub
-		
+	
+	protected void diversify() {
+		this.CL.clear();
+		Integer tenPercent = qttIterationsToDeversi/10;
+		for (Integer i = 0; i < this.tripleElements.length; i++) {			
+			if (this.tripleElements[i].usedInIterations > tenPercent &&
+				this.tripleElements[i].usedInIterations < (qttIterationsToDeversi - tenPercent))
+				this.CL.add((E) i);			
+		}		
+		constructiveHeuristic();
 	}
 
 	/**
