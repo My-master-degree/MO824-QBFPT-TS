@@ -3,6 +3,7 @@ package problems.qbf.solvers;
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
@@ -104,9 +105,9 @@ public class TS_Diversification_Restart_QBFPT extends DiversificationRestartTS<I
 
         for (Triple trip : this.triples) {
             TripleElement te0, te1, te2;
-            te0 = trip.getElements().get(0);
-            te1 = trip.getElements().get(1);
-            te2 = trip.getElements().get(2);
+            te0 = trip.getElements()[0];
+            te1 = trip.getElements()[1];
+            te2 = trip.getElements()[2];
 
             if (te0.getSelected() && te1.getSelected()) {
                 te2.setAvailable(false);
@@ -193,11 +194,9 @@ public class TS_Diversification_Restart_QBFPT extends DiversificationRestartTS<I
             te3 = tripleElements[h(u - 1, n) - 1];
             novaTripla = new Triple(te1, te2, te3);
             
-            Collections.sort(novaTripla.getElements(), new Comparator<TripleElement>() {
-                public int compare(TripleElement te1, TripleElement te2) {
-                    return te1.getIndex().compareTo(te2.getIndex());
-                }
-            });
+            //Sorting new triple
+            Arrays.sort(novaTripla.getElements(), Comparator.comparing(TripleElement::getIndex));
+            
             //novaTripla.printTriple();
             this.triples[u-1] = novaTripla;
         }
