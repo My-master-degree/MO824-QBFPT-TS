@@ -21,7 +21,7 @@ public class Main {
 
     public static int timeLimit = 30; // In minutes
     public static int iterationsLimit = 1000; // Iterations without improvement in incumbent (negative values for not using iterations limit)
-    public static int iterationsToDiversify = 10000;
+    public static int iterationsToDiversify = -1;
     public static String outputCsv;
 
     public static final String[] FILES_LIST = new String[]{
@@ -31,7 +31,7 @@ public class Main {
         "instances/qbf080",
         "instances/qbf100",
         "instances/qbf200",
-        //"instances/qbf400"
+        "instances/qbf400"
     };
 
     //Calls execution method with 5 different configurations
@@ -40,10 +40,10 @@ public class Main {
         outputCsv = "fileName,tenure,tabuStrategie,localSearchStrategie,valueSol\n";
 
         executeTabuSearch(20, TS_QBFPT.STANDARD, TS_QBFPT.FIRST_IMPROVEMENT);
-        //executeTabuSearch(20, TS_QBFPT_FELIPE.STANDARD, TS_QBFPT_FELIPE.BEST_IMPROVEMENT);
-        //executeTabuSearch(10, TS_QBFPT_FELIPE.STANDARD, TS_QBFPT_FELIPE.FIRST_IMPROVEMENT);
-        //executeTabuSearch(20, TS_QBFPT_FELIPE.PROBABILISTIC, TS_QBFPT_FELIPE.FIRST_IMPROVEMENT);
-        //executeTabuSearch(20, TS_QBFPT_FELIPE.DIVERSIFICATION_RESTART, TS_QBFPT_FELIPE.FIRST_IMPROVEMENT);
+        executeTabuSearch(20, TS_QBFPT.STANDARD, TS_QBFPT.BEST_IMPROVEMENT);
+        executeTabuSearch(10, TS_QBFPT.STANDARD, TS_QBFPT.FIRST_IMPROVEMENT);
+        executeTabuSearch(20, TS_QBFPT.PROBABILISTIC, TS_QBFPT.FIRST_IMPROVEMENT);
+        executeTabuSearch(20, TS_QBFPT.DIVERSIFICATION_RESTART, TS_QBFPT.FIRST_IMPROVEMENT);
         
         saveOutput("output.csv", outputCsv);
     }
