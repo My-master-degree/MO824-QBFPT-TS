@@ -1,0 +1,7 @@
+fileName,tenure,tabuStrategie,localSearchStrategie,valueSol
+instances/qbf020,20,1,1,-120.0
+instances/qbf040,20,1,1,-352.0
+instances/qbf060,20,1,1,-470.0
+instances/qbf080,20,1,1,-843.0
+instances/qbf100,20,1,1,-1107.0
+instances/qbf200,20,1,1,-3667.0

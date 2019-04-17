@@ -33,14 +33,16 @@ public class TS_QBFPT_FELIPE extends TS_QBF {
     public static final int BEST_IMPROVEMENT = 2;
     private final int localSearchStrategie;
     
+    private final int timeLimit;
 
-	public TS_QBFPT_FELIPE(Integer tenure, Integer iterations, String filename, int tabuStrategie, int localSearchStrategie, int iterationsToDiversify) throws IOException {
+	public TS_QBFPT_FELIPE(Integer tenure, int timeLimit, Integer iterations, String filename, int tabuStrategie, int localSearchStrategie, int iterationsToDiversify) throws IOException {
 		super(tenure, iterations, filename);
 		// TODO Auto-generated constructor stub
 		
 		this.tabuStrategie = tabuStrategie;
 		this.localSearchStrategie = localSearchStrategie;
 		this.iterationsToDiversify = iterationsToDiversify;
+		this.timeLimit = timeLimit;
 		
 		generateTripleElements();
         generateTriples();
@@ -330,13 +332,17 @@ public class TS_QBFPT_FELIPE extends TS_QBF {
 	
 	@Override
 	public Solution<Integer> solve() {
-
+		long tempoInicial = System.currentTimeMillis();
+		
 		bestSol = createEmptySol();
 		constructiveHeuristic();
 		TL = makeTL();
 		
-		for (int i = 0; i < iterations; i++) {
-			
+		long tempoParcial =  ((System.currentTimeMillis() - tempoInicial) / 1000) / 60;
+		int i = 0;
+		
+		while( (iterations <= 0 && tempoParcial <= timeLimit) || (iterations > 0 && i < iterations))
+		{			
 			updateCL();
 			
 			if(this.tabuStrategie == DIVERSIFICATION_RESTART && i > 0 && i % this.iterationsToDiversify == 0)
@@ -359,27 +365,10 @@ public class TS_QBFPT_FELIPE extends TS_QBF {
 	        	if(tripElem.getSelected())
 	        		tripElem.increaseFrequency();
 	        }
+			
+			i++;
 		}
 
 		return bestSol;
 	}
-	
-	
-	
-	/**
-	 * A main method used for testing the TS metaheuristic.
-	 * 
-	 */
-	public static void main(String[] args) throws IOException {
-
-		long startTime = System.currentTimeMillis();
-		TS_QBF tabusearch = new TS_QBFPT_FELIPE(20, 1000000, "instances/qbf040", DIVERSIFICATION_RESTART, FIRST_IMPROVEMENT, 1000);
-		Solution<Integer> bestSol = tabusearch.solve();
-		System.out.println("maxVal = " + bestSol);
-		long endTime   = System.currentTimeMillis();
-		long totalTime = endTime - startTime;
-		System.out.println("Time = "+(double)totalTime/(double)1000+" seg");
-
-	}
-
 }
