@@ -8,12 +8,13 @@ import problems.qbf.solvers.TS_QBFPT;
 import solutions.Solution;
 
 /**
- * Class that executes the GRASP for MAXQBFPT problem
+ * Class that executes the Tabu Search for MAXQBFPT problem
  *
- * Standard configuration: Alpha = 0.05 Construction mechanism = standard Local
- * search = first improvement
+ * Standard configuration:
+ * Tenure = 20
+ * Tabu strategie = standard
+ * Local search = first improvement
  *
- * @author Jônatas Trabuco Belotti [jonatas.t.belotti@hotmail.com]
  * @author Felipe de Carvalho Pereira [felipe.pereira@students.ic.unicamp.br]
  */
 public class Main {
@@ -84,7 +85,7 @@ public class Main {
         // Calculating time of all executions
         long totalTime = System.currentTimeMillis() - beginTotalTime;
 
-        System.out.println("Tempo execução todos arquivos: " + (totalTime / 1000D) + "seg \n"
+        System.out.println("Execution time for all files: " + (totalTime / 1000D) + "seg \n"
                 + "----------------------------------------------------- \n \n");
     }
 
