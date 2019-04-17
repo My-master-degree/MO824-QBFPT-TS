@@ -15,21 +15,25 @@ import solutions.Solution;
  * Tabu strategie = standard
  * Local search = first improvement
  *
+ * @author Cintia Muranaka
  * @author Felipe de Carvalho Pereira [felipe.pereira@students.ic.unicamp.br]
+ * @author Matheus Diógenes Andrade
  */
 public class Main {
 
-    public static int timeLimit = 1; // In minutes
-    public static int iterationsLimit = -1; // Iterations without improvement in incumbent (negative values for not using iterations limit)
-    public static int iterationsToDiversify = -1;
-    public static String outputCsv;
+    public static int timeLimit = 30; // Max time in minutes
+    public static int iterationsLimit = -1; // Max iterations (negative values for not using iterations limit)
+    public static int valueLimit; // Value limit to stop iterations
+    public static int size; // Number of variables
+    public static String outputCsv; // Output name file
 
+    // Instances
     public static final String[] FILES_LIST = new String[]{
-        //"instances/qbf020",
-    	//"instances/qbf040",
-    	//"instances/qbf060",
-        //"instances/qbf080",
-        //"instances/qbf100",
+        "instances/qbf020",
+    	"instances/qbf040",
+    	"instances/qbf060",
+        "instances/qbf080",
+        "instances/qbf100",
         "instances/qbf200",
         "instances/qbf400"
     };
@@ -37,30 +41,52 @@ public class Main {
     //Calls execution method with 5 different configurations
     public static void main(String[] args) throws IOException {
 
-        outputCsv = "fileName,tenure,tabuStrategie,localSearchStrategie,valueSol\n";
+        outputCsv = "fileName,config,valueSol\n";
 
-        executeTabuSearch(20, TS_QBFPT.STANDARD, TS_QBFPT.FIRST_IMPROVEMENT);
-        executeTabuSearch(20, TS_QBFPT.STANDARD, TS_QBFPT.BEST_IMPROVEMENT);
-        executeTabuSearch(10, TS_QBFPT.STANDARD, TS_QBFPT.FIRST_IMPROVEMENT);
-        executeTabuSearch(20, TS_QBFPT.PROBABILISTIC, TS_QBFPT.FIRST_IMPROVEMENT);
-        executeTabuSearch(20, TS_QBFPT.DIVERSIFICATION_RESTART, TS_QBFPT.FIRST_IMPROVEMENT);
+        executeTabuSearch(0.20, TS_QBFPT.STANDARD, TS_QBFPT.FIRST_IMPROVEMENT, "P");
+        executeTabuSearch(0.20, TS_QBFPT.STANDARD, TS_QBFPT.BEST_IMPROVEMENT, "A");
+        executeTabuSearch(0.10, TS_QBFPT.STANDARD, TS_QBFPT.FIRST_IMPROVEMENT, "B");
+        executeTabuSearch(0.20, TS_QBFPT.PROBABILISTIC, TS_QBFPT.FIRST_IMPROVEMENT, "C");
+        executeTabuSearch(0.20, TS_QBFPT.DIVERSIFICATION_RESTART, TS_QBFPT.FIRST_IMPROVEMENT, "D");
         
-        saveOutput("output3.csv", outputCsv);
+        saveOutput("output.csv", outputCsv); // Setting the name of the output file
     }
     
-    private static void executeTabuSearch(int tenure, int tabuStrategie, int localSearchStrategie) throws IOException
+    private static void executeTabuSearch(double tenurePercent, int tabuStrategie, int localSearchStrategy, String configuration) throws IOException
     {
     	long beginTotalTime = System.currentTimeMillis();
     	
     	// Iterating over files
-        for (String arquivo : FILES_LIST) {
+        for (String file : FILES_LIST) {
+        	if(file.equals("instances/qbf020")) {
+        		valueLimit = -125;
+        		size = 20;
+        	} else if(file.equals("instances/qbf040")) {
+        		valueLimit = -366;
+        		size = 40;
+        	} else if(file.equals("instances/qbf060")) {
+        		valueLimit = -576;
+        		size = 60;
+        	} else if(file.equals("instances/qbf080")) {
+        		valueLimit = -1000;
+        		size = 80;
+    		} else if(file.equals("instances/qbf100")) {
+        		valueLimit = -1539;
+        		size = 100;
+    		} else if(file.equals("instances/qbf200")) {
+        		valueLimit = -5826;
+        		size = 200;
+    		}else if(file.equals("instances/qbf400")) {
+        		valueLimit = -16625;
+        		size = 400;
+    		}
 
             //Print configurations of the execution
-            System.out.println("Executing Tabu Search for file: " + arquivo);
+            System.out.println("Executing Tabu Search for file: " + file);
             System.out.println("Configuration:");
-            printTenure(tenure);
+            printTenure((int)(tenurePercent*size));
             printTabuStrategie (tabuStrategie);
-            printLocalSearchStrategie(localSearchStrategie);
+            printLocalSearchStrategy(localSearchStrategy);
             printStopCriterion();
 
             // Executing Tabu Search
@@ -68,16 +94,21 @@ public class Main {
 
             long beginInstanceTime = System.currentTimeMillis();
             
-            TS_QBFPT ts = new TS_QBFPT(tenure, timeLimit, iterationsLimit, arquivo,  tabuStrategie, localSearchStrategie, iterationsToDiversify);
-            Solution<Integer> bestSolution = ts.solve();
-            System.out.println(" maxVal = " + bestSolution);
+            // Setting configurations parameters
+            // tenure is defined by the ternurePercent * size
+            TS_QBFPT ts = new TS_QBFPT((int)(tenurePercent*size), timeLimit, iterationsLimit, file,  tabuStrategie, localSearchStrategy, valueLimit);
+            Solution<Integer> bestSolution = ts.solve(); // Starting solve model
             
+            System.out.println(" maxVal = " + bestSolution); // Print best solution
+            
+            // Print other data
             long endInstanceTime = System.currentTimeMillis();
             long totalInstanceTime = endInstanceTime - beginInstanceTime;
             System.out.println("Time = " + (double) totalInstanceTime / (double) 1000 + " seg");
             System.out.println("\n");
             
-            outputCsv += arquivo + "," + tenure + "," + tabuStrategie + "," + localSearchStrategie + ","
+            // Add info to output csv file
+            outputCsv += file + "," + configuration + ","
                      + bestSolution.cost + "\n";
 
         }
@@ -89,6 +120,8 @@ public class Main {
                 + "----------------------------------------------------- \n \n");
     }
 
+    	
+    // Print tabu strategy
     private static void printTabuStrategie(int tabuStrategie) {
         String resp = " Tabu strategie = ";
 
@@ -105,14 +138,16 @@ public class Main {
         System.out.println(resp);
     }
 
+    // Print tenure value
     private static void printTenure(int tenure) {
     	System.out.println(" Tenure = " + tenure);
     }
 
-    private static void printLocalSearchStrategie(int localSearchStrategie) {
+    // Print local search strategy
+    private static void printLocalSearchStrategy(int localSearchStrategy) {
         String resp = " Local Search = ";
 
-        if (localSearchStrategie == TS_QBFPT.FIRST_IMPROVEMENT) {
+        if (localSearchStrategy == TS_QBFPT.FIRST_IMPROVEMENT) {
             resp += "First Improving";
         } else {
             resp += "Best Improving";
@@ -121,6 +156,7 @@ public class Main {
         System.out.println(resp);
     }
 
+    // Print stop criterion
     private static void printStopCriterion() {
     	
         String resp = " Stop Criterion = ";
@@ -135,6 +171,7 @@ public class Main {
         System.out.println(resp);
     }
 
+    // Save input file
     public static void saveOutput(String fileName, String content) {
         File dir;
         PrintWriter out;

@@ -10,6 +10,17 @@ import solutions.Solution;
 import triple.Triple;
 import triple.TripleElement;
 
+/**
+ * This class extends from TS_QBF and implements the characteristics of QBFPT problem
+ * It  also implements two tabu search strategies in addition to the standard strategy:
+ * the diversification by restart and probabilistic tabu
+ * Besides the best improvement strategy for local search, it also implements
+ * the first improvement strategy
+ * 
+ * @author Cintia Muranaka
+ * @author Felipe de Carvalho Pereira [felipe.pereira@students.ic.unicamp.br]
+ * @author Matheus Diógenes Andrade
+ */
 public class TS_QBFPT extends TS_QBF {
 	
 	/**
@@ -23,35 +34,39 @@ public class TS_QBFPT extends TS_QBF {
      */
     private Triple[] triples; 
     
+    // Tabu strategies
     public static final int STANDARD = 1;
     public static final int PROBABILISTIC  = 2;
     public static final int DIVERSIFICATION_RESTART = 3;
     private final int tabuStrategie;
-    private final int iterationsToDiversify;
+    private final double timeToDiversify; // Diversification occurs every timeToDiversify minutes
     
+    // Local Search strategies
     public static final int FIRST_IMPROVEMENT = 1;
     public static final int BEST_IMPROVEMENT = 2;
     private final int localSearchStrategie;
     
-    private final int timeLimit;
+    private final int timeLimit; // Execution limit by time
+    private final int valueLimit; // Execution limit by best solution value
 
-	public TS_QBFPT(Integer tenure, int timeLimit, Integer iterations, String filename, int tabuStrategie, int localSearchStrategie, int iterationsToDiversify) throws IOException {
+	public TS_QBFPT(Integer tenure, int timeLimit, Integer iterations, String filename, int tabuStrategie, int localSearchStrategie, int valueLimit) throws IOException {
 		super(tenure, iterations, filename);
 		// TODO Auto-generated constructor stub
 		
 		this.tabuStrategie = tabuStrategie;
 		this.localSearchStrategie = localSearchStrategie;
-		this.iterationsToDiversify = iterationsToDiversify;
+		this.timeToDiversify = (double)timeLimit / ObjFunction.getDomainSize();
 		this.timeLimit = timeLimit;
+		this.valueLimit = valueLimit;
 		
 		generateTripleElements();
         generateTriples();
 	}
 	
     /**
-     * A GRASP CL generator for MAXQBFPT problem
+     * A Tabu CL generator for MAXQBFPT problem
      *
-     * @return A list of candidates to partial solution
+     * @return A list of candidates to be evaluated in neighborhood
      */
     @Override
     public ArrayList<Integer> makeCL() {
@@ -67,23 +82,30 @@ public class TS_QBFPT extends TS_QBF {
         return _CL;
     }
 	
-
+    /**
+     * Update the list of candidates, keeping only those who
+     * can be inserted in the incumbent solution without violating
+     * any triple
+     */
 	@Override
     public void updateCL() {
         ArrayList<Integer> _CL = new ArrayList<Integer>();
         
+        // Set all elements as available
         for (TripleElement tripElem : this.tripleElements) {
         	tripElem.setSelected(false);
         	tripElem.setAvailable(true);
         }
         
+        // Set all incumbent elements as unavailable and selected
         if (this.incumbentSol != null) {
             for (Integer e : this.incumbentSol) {
                 this.tripleElements[e].setSelected(true);
                 this.tripleElements[e].setAvailable(false);
             }
         }
-
+        
+        // Set to unavailable those elements that can violate at least one triple
         for (Triple trip : this.triples) {
             TripleElement te0, te1, te2;
             te0 = trip.getElements()[0];
@@ -99,6 +121,7 @@ public class TS_QBFPT extends TS_QBF {
             }
         }
 
+        // Update all CL with only available elements
         for (TripleElement tripElem : this.tripleElements) {
             if (!tripElem.getSelected() && tripElem.getAvailable()) {
                 _CL.add(tripElem.getIndex());
@@ -179,7 +202,6 @@ public class TS_QBFPT extends TS_QBF {
      * That method generates a list of objects (Triple Elements) that represents
      * each binary variable that could be inserted into a prohibited triple
      */
-    
 	private void generateTripleElements() {
         int n = ObjFunction.getDomainSize();
         this.tripleElements = new TripleElement[n];
@@ -189,20 +211,27 @@ public class TS_QBFPT extends TS_QBF {
         }
     }
 	
+	/**
+	 * This method make a local search based on neighborhood of the incumbent solution
+	 * It makes a first or best improvement search depending on the execution settings
+	 */
 	@Override
 	public Solution<Integer> neighborhoodMove() {
-		ArrayList <ArrayList<Integer>> neighborhood = getNeighborhood();
+		ArrayList <ArrayList<Integer>> neighborhood = getNeighborhood(); // Get neighborhood of incumbent
+		
+		// Auxiliar variables
 		Double minDeltaCost;
 		Integer bestCandIn = null, bestCandOut = null;
 		minDeltaCost = Double.POSITIVE_INFINITY;
 		Integer candIn, candOut;
+		
 		
 		for(int i = 0; i < neighborhood.size(); i++)
 		{
 			candIn = neighborhood.get(i).get(0);
 			candOut = neighborhood.get(i).get(1);
 			Double deltaCost;
-			if(candOut == fake)
+			if(candOut == fake) // Insertion
 			{
 				deltaCost = ObjFunction.evaluateInsertionCost(candIn, incumbentSol);
 				if (!TL.contains(candIn) || incumbentSol.cost+deltaCost < bestSol.cost) {
@@ -213,7 +242,7 @@ public class TS_QBFPT extends TS_QBF {
 					}
 				}
 			}
-			else if(candIn == fake)
+			else if(candIn == fake) // Removal
 			{
 				deltaCost = ObjFunction.evaluateRemovalCost(candOut, incumbentSol);
 				if (!TL.contains(candOut) || incumbentSol.cost+deltaCost < bestSol.cost) {
@@ -224,7 +253,7 @@ public class TS_QBFPT extends TS_QBF {
 					}
 				}
 			}
-			else
+			else // Exchange
 			{
 				deltaCost = ObjFunction.evaluateExchangeCost(candIn, candOut, incumbentSol);
 				if ((!TL.contains(candIn) && !TL.contains(candOut)) || incumbentSol.cost+deltaCost < bestSol.cost) {
@@ -235,7 +264,7 @@ public class TS_QBFPT extends TS_QBF {
 					}
 				}
 			}
-			if(this.localSearchStrategie == FIRST_IMPROVEMENT && deltaCost < 0)
+			if(this.localSearchStrategie == FIRST_IMPROVEMENT && deltaCost < 0) // Stop the search with the first improvement in incumbent
 			{
 				i = neighborhood.size();
 			}
@@ -265,35 +294,40 @@ public class TS_QBFPT extends TS_QBF {
 		return null;
 	}
 	
+	/**
+	 * Generate a complete list with all the neighborhood of a incumbent, including all operations
+	 * If first improvement local search is settled then it shuffles the list
+	 * If the probabilistic strategy is settled then it shuffles the list and return half of it 
+	 * 
+	 * @return the neighborhood list
+	 */
 	private ArrayList <ArrayList<Integer>> getNeighborhood()
 	{
 		ArrayList <ArrayList<Integer>> neighborhood = new ArrayList<ArrayList<Integer>>();
 		
-		for(Integer i : CL)
+		for(Integer i : CL) // It considers only the elements on candidate list
 		{
-			neighborhood.add(new ArrayList<Integer>(Arrays.asList(i, fake)));
+			neighborhood.add(new ArrayList<Integer>(Arrays.asList(i, fake))); // Insertion
 			
 			for (Integer j : incumbentSol) {
-				neighborhood.add(new ArrayList<Integer>(Arrays.asList(i, j)));
+				neighborhood.add(new ArrayList<Integer>(Arrays.asList(i, j))); // Exchange
             }
 		}
 		
-		for (Integer j : incumbentSol) {
-			neighborhood.add(new ArrayList<Integer>(Arrays.asList(fake, j)));
+		for (Integer j : incumbentSol) { 
+			neighborhood.add(new ArrayList<Integer>(Arrays.asList(fake, j))); // Removal
         }
-		
-		
 		
 		if(this.tabuStrategie == PROBABILISTIC)
 		{
 			Collections.shuffle(neighborhood);
 			int lastIndex = (int) (neighborhood.size() * 0.50) - 1;
 			ArrayList <ArrayList<Integer>> probabilisticNeighborhood =  new ArrayList<ArrayList<Integer>>(neighborhood.subList(0, lastIndex));
-			return probabilisticNeighborhood;
+			return probabilisticNeighborhood; // Return half of the list
 		}
 		
 		if(this.localSearchStrategie == FIRST_IMPROVEMENT)
-			Collections.shuffle(neighborhood);
+			Collections.shuffle(neighborhood); // Randomize the order
 		
 		return neighborhood;
 	}
@@ -301,73 +335,98 @@ public class TS_QBFPT extends TS_QBF {
 	public void diversify()
 	{
 		TripleElement[] sortedTripleElements = tripleElements.clone();
-		int qntToBeChosen = (int)(0.10 * sortedTripleElements.length);
-		int qntToBeSampled = (int)(0.25 * sortedTripleElements.length);
-
-		Arrays.sort(sortedTripleElements, Comparator.comparing(TripleElement::getIncumbentFrequency));
+		Arrays.sort(sortedTripleElements, Comparator.comparing(TripleElement::getIncumbentFrequency)); // Sort elements by frequency in incument solutions
+		
+		int qntToBeSampled = (int)(0.25 * sortedTripleElements.length); // Number of candidates to be selected to diversification
+		int qntToBeChosen = (int)(0.50 * qntToBeSampled); // Max number of selected candidates = half of the candidate list
+		
+		// Candidates to diversification, the 25% with less frequency
 		ArrayList<TripleElement> worstTrilpleElements = new ArrayList<TripleElement> (Arrays.asList(Arrays.copyOfRange(sortedTripleElements, 0, qntToBeSampled)));
 		Collections.shuffle(worstTrilpleElements);
+		
+		TL = makeTL(); // Restart the TL
+		incumbentSol = createEmptySol(); // Restart the incumbent
+		incumbentCost = Double.POSITIVE_INFINITY;
+		updateCL(); // Restart CL
 		
 		int i = 0;
 		int j = 0;
 		
-		while(i < qntToBeChosen && j < qntToBeSampled)
+		while(i < qntToBeChosen && j < qntToBeSampled) // Insert at maximum qntToBeChosen elements, depending on conflicts related to prohibited triples
 		{
 			Integer candIn = worstTrilpleElements.get(i).getIndex();
-			if(worstTrilpleElements.get(i).getAvailable())
+			if(worstTrilpleElements.get(i).getAvailable()) // If the candidate randomly selected is available
 			{
+				// Add to TL
 				TL.poll();
 				TL.add(fake);
 				TL.poll();
 				TL.add(candIn);
-				incumbentSol.add(candIn);
+				incumbentSol.add(candIn); // Add to incumbent
 				ObjFunction.evaluate(incumbentSol);
 				updateCL();
 				i++;
 			}
 			j++;
 		}
-		
+		for(TripleElement tripElem : tripleElements)
+			tripElem.setIncumbentFrequency(0); // reset frequency
+		constructiveHeuristic(); // makes a construction from the selected ones
+
 	}
 	
+	/**
+	 * This method invoke all structures of tabu method to realize a tabu search
+	 */
 	@Override
 	public Solution<Integer> solve() {
-		long tempoInicial = System.currentTimeMillis();
+		long beginTime = System.currentTimeMillis();
 		
+		// Initialize incumbent, CL, TL etc
 		bestSol = createEmptySol();
-		constructiveHeuristic();
+		incumbentSol = createEmptySol();
+		incumbentCost = Double.POSITIVE_INFINITY;
+		CL = makeCL();
+		RCL = makeRCL();
+		constructiveHeuristic(); // Create initial solution
 		TL = makeTL();
 		
-		long tempoParcial =  ((System.currentTimeMillis() - tempoInicial) / 1000) / 60;
+		double lastDiversification = 0; // Last time that diversification occurred
+		double partialTime =  ((double)(System.currentTimeMillis() - beginTime) / 1000) / 60;
 		int i = 0;
 		
-		while( (iterations <= 0 && tempoParcial <= timeLimit) || (iterations > 0 && i < iterations))
-		{			
+		// Stops by bestValue known or timeLimit or iterationsLimit
+		while(valueLimit < bestSol.cost && (iterations <= 0 && partialTime <= timeLimit) || (iterations > 0 && i < iterations))
+		{
 			updateCL();
-			
-			if(this.tabuStrategie == DIVERSIFICATION_RESTART && i > 0 && i % this.iterationsToDiversify == 0)
+
+			// If diversification restart is activated and its time to diversify, it makes the process
+			if(this.tabuStrategie == DIVERSIFICATION_RESTART && partialTime > lastDiversification + timeToDiversify)
+			{
+				System.out.println("DIVERSIFICOU " + partialTime + " " + i);
 				diversify();
-			else
+				lastDiversification = partialTime;
+			}
+			else // Else the standard neighborhood move is made
+			{
 				neighborhoodMove();
+			}
 			
+			// Check if the incumbent is better than the best solution found
 			if (bestSol.cost > incumbentSol.cost) {
 				bestSol = new Solution<Integer>(incumbentSol);
 				if (verbose)
 					System.out.println("(Iter. " + i + ") BestSol = " + bestSol);
 			}
-			else if (i % 100000 == 0)
-			{
-				System.out.println("(Iter. " + i + ") BestSol not improved");
-
-			}
 			
+			// Increase frequency of elements at incumbent
 			for (TripleElement tripElem : this.tripleElements) {
 	        	if(tripElem.getSelected())
 	        		tripElem.increaseFrequency();
 	        }
 			
 			i++;
-			tempoParcial =  ((System.currentTimeMillis() - tempoInicial) / 1000) / 60;
+			partialTime =  ((double)(System.currentTimeMillis() - beginTime) / 1000) / 60;
 		}
 
 		return bestSol;
