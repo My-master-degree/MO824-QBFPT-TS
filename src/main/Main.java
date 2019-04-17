@@ -19,17 +19,17 @@ import solutions.Solution;
  */
 public class Main {
 
-    public static int timeLimit = 30; // In minutes
-    public static int iterationsLimit = 1000; // Iterations without improvement in incumbent (negative values for not using iterations limit)
+    public static int timeLimit = 1; // In minutes
+    public static int iterationsLimit = -1; // Iterations without improvement in incumbent (negative values for not using iterations limit)
     public static int iterationsToDiversify = -1;
     public static String outputCsv;
 
     public static final String[] FILES_LIST = new String[]{
-        "instances/qbf020",
-    	"instances/qbf040",
-    	"instances/qbf060",
-        "instances/qbf080",
-        "instances/qbf100",
+        //"instances/qbf020",
+    	//"instances/qbf040",
+    	//"instances/qbf060",
+        //"instances/qbf080",
+        //"instances/qbf100",
         "instances/qbf200",
         "instances/qbf400"
     };
@@ -45,7 +45,7 @@ public class Main {
         executeTabuSearch(20, TS_QBFPT.PROBABILISTIC, TS_QBFPT.FIRST_IMPROVEMENT);
         executeTabuSearch(20, TS_QBFPT.DIVERSIFICATION_RESTART, TS_QBFPT.FIRST_IMPROVEMENT);
         
-        saveOutput("output.csv", outputCsv);
+        saveOutput("output3.csv", outputCsv);
     }
     
     private static void executeTabuSearch(int tenure, int tabuStrategie, int localSearchStrategie) throws IOException

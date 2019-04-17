@@ -367,6 +367,7 @@ public class TS_QBFPT extends TS_QBF {
 	        }
 			
 			i++;
+			tempoParcial =  ((System.currentTimeMillis() - tempoInicial) / 1000) / 60;
 		}
 
 		return bestSol;
