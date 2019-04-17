@@ -253,8 +253,8 @@ public abstract class DiversificationRestartTS<E> {
 		this.CL.clear();
 		Integer tenPercent = qttIterationsToDeversi/10;
 		for (Integer i = 0; i < this.tripleElements.length; i++) {			
-			if (this.tripleElements[i].usedInIterations > tenPercent &&
-				this.tripleElements[i].usedInIterations < (qttIterationsToDeversi - tenPercent))
+			if (this.tripleElements[i].incumbentFrequency > tenPercent &&
+				this.tripleElements[i].incumbentFrequency < (qttIterationsToDeversi - tenPercent))
 				this.CL.add((E) i);			
 		}		
 		constructiveHeuristic();

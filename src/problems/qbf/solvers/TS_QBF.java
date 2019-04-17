@@ -20,7 +20,7 @@ import solutions.Solution;
  */
 public class TS_QBF extends AbstractTS<Integer> {
 	
-	private final Integer fake = new Integer(-1);
+	protected final Integer fake = new Integer(-1);
 
 	/**
 	 * Constructor for the TS_QBF class. An inverse QBF objective function is
@@ -185,7 +185,7 @@ public class TS_QBF extends AbstractTS<Integer> {
 	public static void main(String[] args) throws IOException {
 
 		long startTime = System.currentTimeMillis();
-		TS_QBF tabusearch = new TS_QBF(20, 10000, "instances/qbf100");
+		TS_QBF tabusearch = new TS_QBF(20, 10000, "instances/qbf020");
 		Solution<Integer> bestSol = tabusearch.solve();
 		System.out.println("maxVal = " + bestSol);
 		long endTime   = System.currentTimeMillis();

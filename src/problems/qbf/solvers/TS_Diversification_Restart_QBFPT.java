@@ -279,7 +279,7 @@ public class TS_Diversification_Restart_QBFPT extends DiversificationRestartTS<I
 			incumbentSol.add(bestCandIn);
 			CL.remove(bestCandIn);
 			TL.add(bestCandIn);
-			this.tripleElements[bestCandIn].usedInIterations++;
+			this.tripleElements[bestCandIn].incumbentFrequency++;
 		} else {
 			TL.add(fake);
 		}
