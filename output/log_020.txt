@@ -1,0 +1,91 @@
+Executing Tabu Search for file: instances/qbf020
+Configuration:
+ Tenure = 4
+ Tabu strategie = Standard
+ Local Search = First Improving
+ Stop Criterion = 30 minutes
+Execution:
+(Iter. 0) BestSol = Solution: cost=[-99.0], size=[9], elements=[17, 5, 4, 14, 1, 9, 8, 12, 0]
+(Iter. 2) BestSol = Solution: cost=[-101.0], size=[9], elements=[4, 14, 1, 9, 8, 12, 0, 2, 16]
+(Iter. 3) BestSol = Solution: cost=[-107.0], size=[9], elements=[4, 14, 1, 9, 8, 12, 0, 2, 18]
+(Iter. 4) BestSol = Solution: cost=[-120.0], size=[10], elements=[4, 14, 1, 9, 8, 12, 0, 2, 18, 16]
+(Iter. 713) BestSol = Solution: cost=[-125.0], size=[9], elements=[11, 2, 15, 4, 16, 14, 19, 3, 9]
+ maxVal = Solution: cost=[-125.0], size=[9], elements=[11, 2, 15, 4, 16, 14, 19, 3, 9]
+Time = 0.197 seg
+
+
+Execution time for all files: 0.197seg 
+----------------------------------------------------- 
+ 
+
+Executing Tabu Search for file: instances/qbf020
+Configuration:
+ Tenure = 4
+ Tabu strategie = Standard
+ Local Search = Best Improving
+ Stop Criterion = 30 minutes
+Execution:
+(Iter. 0) BestSol = Solution: cost=[-120.0], size=[10], elements=[4, 2, 14, 12, 16, 9, 18, 0, 1, 8]
+(Iter. 50) BestSol = Solution: cost=[-125.0], size=[9], elements=[4, 14, 16, 9, 3, 2, 15, 11, 19]
+ maxVal = Solution: cost=[-125.0], size=[9], elements=[4, 14, 16, 9, 3, 2, 15, 11, 19]
+Time = 0.009 seg
+
+
+Execution time for all files: 0.01seg 
+----------------------------------------------------- 
+ 
+
+Executing Tabu Search for file: instances/qbf020
+Configuration:
+ Tenure = 2
+ Tabu strategie = Standard
+ Local Search = First Improving
+ Stop Criterion = 30 minutes
+Execution:
+(Iter. 0) BestSol = Solution: cost=[-120.0], size=[10], elements=[4, 2, 14, 12, 16, 9, 18, 1, 0, 8]
+(Iter. 234) BestSol = Solution: cost=[-125.0], size=[9], elements=[4, 14, 3, 11, 9, 16, 2, 15, 19]
+ maxVal = Solution: cost=[-125.0], size=[9], elements=[4, 14, 3, 11, 9, 16, 2, 15, 19]
+Time = 0.042 seg
+
+
+Execution time for all files: 0.043seg 
+----------------------------------------------------- 
+ 
+
+Executing Tabu Search for file: instances/qbf020
+Configuration:
+ Tenure = 4
+ Tabu strategie = Probabilistic
+ Local Search = First Improving
+ Stop Criterion = 30 minutes
+Execution:
+(Iter. 0) BestSol = Solution: cost=[-120.0], size=[10], elements=[4, 2, 14, 12, 16, 9, 18, 1, 0, 8]
+(Iter. 457) BestSol = Solution: cost=[-125.0], size=[9], elements=[4, 9, 15, 14, 11, 19, 3, 16, 2]
+ maxVal = Solution: cost=[-125.0], size=[9], elements=[4, 9, 15, 14, 11, 19, 3, 16, 2]
+Time = 0.017 seg
+
+
+Execution time for all files: 0.017seg 
+----------------------------------------------------- 
+ 
+
+Executing Tabu Search for file: instances/qbf020
+Configuration:
+ Tenure = 4
+ Tabu strategie = Diversification restart
+ Local Search = First Improving
+ Stop Criterion = 30 minutes
+Execution:
+(Iter. 0) BestSol = Solution: cost=[-99.0], size=[9], elements=[17, 5, 4, 14, 1, 9, 8, 12, 0]
+(Iter. 2) BestSol = Solution: cost=[-101.0], size=[9], elements=[4, 14, 1, 9, 8, 12, 0, 2, 16]
+(Iter. 3) BestSol = Solution: cost=[-111.0], size=[9], elements=[4, 14, 1, 9, 12, 0, 2, 16, 18]
+(Iter. 4) BestSol = Solution: cost=[-120.0], size=[10], elements=[4, 14, 1, 9, 12, 0, 2, 16, 18, 8]
+(Iter. 220) BestSol = Solution: cost=[-125.0], size=[9], elements=[11, 16, 4, 15, 14, 2, 3, 19, 9]
+ maxVal = Solution: cost=[-125.0], size=[9], elements=[11, 16, 4, 15, 14, 2, 3, 19, 9]
+Time = 0.007 seg
+
+
+Execution time for all files: 0.007seg 
+----------------------------------------------------- 
+ 
+
