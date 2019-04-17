@@ -30,19 +30,20 @@ public class Main {
     // Instances
     public static final String[] FILES_LIST = new String[]{
         "instances/qbf020",
-    	"instances/qbf040",
-    	"instances/qbf060",
-        "instances/qbf080",
-        "instances/qbf100",
-        "instances/qbf200",
-        "instances/qbf400"
+    	//"instances/qbf040",
+    	//"instances/qbf060",
+        //"instances/qbf080",
+       // "instances/qbf100",
+        //"instances/qbf200",
+       // "instances/qbf400"
     };
 
     //Calls execution method with 5 different configurations
     public static void main(String[] args) throws IOException {
 
-        outputCsv = "fileName,config,valueSol\n";
-
+        outputCsv = "fileName,config,valueSol,tempExec\n";
+        
+        // Configurations
         executeTabuSearch(0.20, TS_QBFPT.STANDARD, TS_QBFPT.FIRST_IMPROVEMENT, "P");
         executeTabuSearch(0.20, TS_QBFPT.STANDARD, TS_QBFPT.BEST_IMPROVEMENT, "A");
         executeTabuSearch(0.10, TS_QBFPT.STANDARD, TS_QBFPT.FIRST_IMPROVEMENT, "B");
@@ -109,7 +110,7 @@ public class Main {
             
             // Add info to output csv file
             outputCsv += file + "," + configuration + ","
-                     + bestSolution.cost + "\n";
+                     + bestSolution.cost + "," + (double)totalInstanceTime / 1000 + "\n";
 
         }
 
