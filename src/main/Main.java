@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import problems.qbf.solvers.TS_QBFPT_FELIPE;
+import problems.qbf.solvers.TS_QBFPT;
 import solutions.Solution;
 
 /**
@@ -38,7 +38,7 @@ public class Main {
 
         outputCsv = "fileName,tenure,tabuStrategie,localSearchStrategie,valueSol\n";
 
-        executeTabuSearch(20, TS_QBFPT_FELIPE.STANDARD, TS_QBFPT_FELIPE.FIRST_IMPROVEMENT);
+        executeTabuSearch(20, TS_QBFPT.STANDARD, TS_QBFPT.FIRST_IMPROVEMENT);
         //executeTabuSearch(20, TS_QBFPT_FELIPE.STANDARD, TS_QBFPT_FELIPE.BEST_IMPROVEMENT);
         //executeTabuSearch(10, TS_QBFPT_FELIPE.STANDARD, TS_QBFPT_FELIPE.FIRST_IMPROVEMENT);
         //executeTabuSearch(20, TS_QBFPT_FELIPE.PROBABILISTIC, TS_QBFPT_FELIPE.FIRST_IMPROVEMENT);
@@ -67,7 +67,7 @@ public class Main {
 
             long beginInstanceTime = System.currentTimeMillis();
             
-            TS_QBFPT_FELIPE ts = new TS_QBFPT_FELIPE(tenure, timeLimit, iterationsLimit, arquivo,  tabuStrategie, localSearchStrategie, iterationsToDiversify);
+            TS_QBFPT ts = new TS_QBFPT(tenure, timeLimit, iterationsLimit, arquivo,  tabuStrategie, localSearchStrategie, iterationsToDiversify);
             Solution<Integer> bestSolution = ts.solve();
             System.out.println(" maxVal = " + bestSolution);
             
@@ -91,13 +91,13 @@ public class Main {
     private static void printTabuStrategie(int tabuStrategie) {
         String resp = " Tabu strategie = ";
 
-        if (tabuStrategie == TS_QBFPT_FELIPE.STANDARD) {
+        if (tabuStrategie == TS_QBFPT.STANDARD) {
             resp += "Standard";
         }
-        if (tabuStrategie == TS_QBFPT_FELIPE.PROBABILISTIC) {
+        if (tabuStrategie == TS_QBFPT.PROBABILISTIC) {
             resp += "Probabilistic";
         }
-        if (tabuStrategie == TS_QBFPT_FELIPE.DIVERSIFICATION_RESTART) {
+        if (tabuStrategie == TS_QBFPT.DIVERSIFICATION_RESTART) {
             resp += "Diversification restart";
         }
 
@@ -111,7 +111,7 @@ public class Main {
     private static void printLocalSearchStrategie(int localSearchStrategie) {
         String resp = " Local Search = ";
 
-        if (localSearchStrategie == TS_QBFPT_FELIPE.FIRST_IMPROVEMENT) {
+        if (localSearchStrategie == TS_QBFPT.FIRST_IMPROVEMENT) {
             resp += "First Improving";
         } else {
             resp += "Best Improving";

@@ -10,7 +10,7 @@ import solutions.Solution;
 import triple.Triple;
 import triple.TripleElement;
 
-public class TS_QBFPT_FELIPE extends TS_QBF {
+public class TS_QBFPT extends TS_QBF {
 	
 	/**
      * List of element objects used in prohibited triples. These objects
@@ -35,7 +35,7 @@ public class TS_QBFPT_FELIPE extends TS_QBF {
     
     private final int timeLimit;
 
-	public TS_QBFPT_FELIPE(Integer tenure, int timeLimit, Integer iterations, String filename, int tabuStrategie, int localSearchStrategie, int iterationsToDiversify) throws IOException {
+	public TS_QBFPT(Integer tenure, int timeLimit, Integer iterations, String filename, int tabuStrategie, int localSearchStrategie, int iterationsToDiversify) throws IOException {
 		super(tenure, iterations, filename);
 		// TODO Auto-generated constructor stub
 		
