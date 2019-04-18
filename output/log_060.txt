@@ -1,0 +1,186 @@
+Executing Tabu Search for file: instances/qbf060
+Configuration:
+ Tenure = 12
+ Tabu strategie = Standard
+ Local Search = First Improving
+ Stop Criterion = 30 minutes
+Execution:
+(Iter. 0) BestSol = Solution: cost=[-442.0], size=[29], elements=[3, 28, 17, 16, 11, 34, 40, 49, 26, 38, 44, 42, 21, 51, 56, 4, 55, 30, 12, 41, 24, 53, 35, 29, 59, 14, 46, 45, 33]
+(Iter. 1) BestSol = Solution: cost=[-457.0], size=[28], elements=[3, 28, 17, 16, 11, 34, 40, 49, 26, 38, 44, 42, 21, 51, 56, 4, 55, 30, 12, 41, 24, 53, 35, 29, 59, 14, 46, 45]
+(Iter. 2) BestSol = Solution: cost=[-458.0], size=[28], elements=[3, 28, 17, 16, 11, 34, 49, 26, 38, 44, 42, 21, 51, 56, 4, 55, 30, 12, 41, 24, 53, 35, 29, 59, 14, 46, 45, 13]
+(Iter. 3) BestSol = Solution: cost=[-462.0], size=[27], elements=[3, 28, 17, 16, 11, 34, 49, 26, 38, 44, 42, 21, 51, 56, 4, 55, 30, 12, 41, 24, 53, 35, 29, 59, 14, 46, 45]
+(Iter. 4) BestSol = Solution: cost=[-463.0], size=[27], elements=[3, 28, 17, 16, 11, 34, 49, 26, 38, 44, 42, 21, 51, 56, 4, 55, 30, 12, 41, 24, 53, 35, 29, 59, 46, 45, 22]
+(Iter. 5) BestSol = Solution: cost=[-469.0], size=[28], elements=[3, 28, 17, 16, 11, 34, 49, 26, 38, 44, 42, 21, 51, 56, 4, 55, 30, 12, 41, 24, 53, 35, 29, 59, 46, 45, 22, 14]
+(Iter. 7) BestSol = Solution: cost=[-470.0], size=[27], elements=[3, 28, 17, 16, 11, 34, 49, 26, 38, 44, 42, 21, 51, 56, 4, 55, 30, 12, 41, 24, 53, 35, 29, 59, 46, 14, 40]
+(Iter. 10) BestSol = Solution: cost=[-485.0], size=[26], elements=[3, 28, 17, 16, 11, 34, 49, 26, 38, 44, 42, 51, 56, 4, 55, 30, 12, 41, 24, 53, 35, 29, 59, 14, 2, 27]
+(Iter. 11) BestSol = Solution: cost=[-499.0], size=[26], elements=[3, 28, 17, 16, 11, 34, 49, 26, 38, 44, 42, 51, 56, 4, 55, 30, 12, 24, 53, 35, 29, 59, 14, 2, 27, 33]
+(Iter. 12) BestSol = Solution: cost=[-500.0], size=[27], elements=[3, 28, 17, 16, 11, 34, 49, 26, 38, 44, 42, 51, 56, 4, 55, 30, 12, 24, 53, 35, 29, 59, 14, 2, 27, 33, 45]
+ maxVal = Solution: cost=[-500.0], size=[27], elements=[3, 28, 17, 16, 11, 34, 49, 26, 38, 44, 42, 51, 56, 4, 55, 30, 12, 24, 53, 35, 29, 59, 14, 2, 27, 33, 45]
+Time = 1800.082 seg
+
+
+Execution time for all files: 1800.084seg 
+----------------------------------------------------- 
+ 
+
+Executing Tabu Search for file: instances/qbf060
+Configuration:
+ Tenure = 12
+ Tabu strategie = Standard
+ Local Search = Best Improving
+ Stop Criterion = 30 minutes
+Execution:
+(Iter. 0) BestSol = Solution: cost=[-348.0], size=[20], elements=[44, 21, 42, 17, 28, 27, 16, 11, 38, 26, 3, 51, 45, 34, 5, 39, 55, 22, 2, 59]
+(Iter. 1) BestSol = Solution: cost=[-349.0], size=[20], elements=[44, 21, 42, 17, 28, 27, 16, 11, 38, 26, 3, 51, 45, 34, 39, 55, 22, 2, 59, 23]
+(Iter. 2) BestSol = Solution: cost=[-378.0], size=[21], elements=[44, 21, 42, 17, 28, 27, 16, 11, 38, 26, 3, 51, 45, 34, 39, 55, 22, 2, 59, 23, 4]
+(Iter. 3) BestSol = Solution: cost=[-387.0], size=[22], elements=[44, 21, 42, 17, 28, 27, 16, 11, 38, 26, 3, 51, 45, 34, 39, 55, 22, 2, 59, 23, 4, 53]
+(Iter. 4) BestSol = Solution: cost=[-393.0], size=[23], elements=[44, 21, 42, 17, 28, 27, 16, 11, 38, 26, 3, 51, 45, 34, 39, 55, 22, 2, 59, 23, 4, 53, 49]
+(Iter. 5) BestSol = Solution: cost=[-408.0], size=[23], elements=[44, 21, 42, 17, 28, 27, 16, 11, 38, 26, 3, 51, 45, 34, 55, 22, 2, 59, 23, 4, 53, 49, 24]
+(Iter. 6) BestSol = Solution: cost=[-430.0], size=[24], elements=[44, 21, 42, 17, 28, 27, 16, 11, 38, 26, 3, 51, 45, 34, 55, 22, 2, 59, 23, 4, 53, 49, 24, 35]
+(Iter. 7) BestSol = Solution: cost=[-436.0], size=[24], elements=[44, 21, 42, 17, 28, 27, 16, 11, 38, 26, 3, 51, 45, 34, 55, 22, 59, 23, 4, 53, 49, 24, 35, 41]
+(Iter. 8) BestSol = Solution: cost=[-447.0], size=[25], elements=[44, 21, 42, 17, 28, 27, 16, 11, 38, 26, 3, 51, 45, 34, 55, 22, 59, 23, 4, 53, 49, 24, 35, 41, 30]
+(Iter. 9) BestSol = Solution: cost=[-453.0], size=[26], elements=[44, 21, 42, 17, 28, 27, 16, 11, 38, 26, 3, 51, 45, 34, 55, 22, 59, 23, 4, 53, 49, 24, 35, 41, 30, 46]
+(Iter. 10) BestSol = Solution: cost=[-466.0], size=[27], elements=[44, 21, 42, 17, 28, 27, 16, 11, 38, 26, 3, 51, 45, 34, 55, 22, 59, 23, 4, 53, 49, 24, 35, 41, 30, 46, 29]
+(Iter. 11) BestSol = Solution: cost=[-478.0], size=[28], elements=[44, 21, 42, 17, 28, 27, 16, 11, 38, 26, 3, 51, 45, 34, 55, 22, 59, 23, 4, 53, 49, 24, 35, 41, 30, 46, 29, 14]
+(Iter. 39) BestSol = Solution: cost=[-488.0], size=[28], elements=[44, 42, 17, 28, 27, 11, 38, 26, 51, 23, 4, 53, 49, 24, 35, 30, 29, 14, 52, 18, 56, 34, 33, 2, 59, 45, 55, 32]
+(Iter. 129) BestSol = Solution: cost=[-492.0], size=[27], elements=[44, 26, 51, 4, 53, 24, 35, 29, 14, 56, 32, 2, 31, 38, 17, 27, 49, 59, 3, 33, 55, 45, 48, 19, 23, 41, 54]
+(Iter. 198) BestSol = Solution: cost=[-503.0], size=[28], elements=[44, 26, 51, 4, 24, 56, 27, 3, 19, 55, 45, 2, 38, 33, 11, 34, 42, 49, 54, 16, 12, 30, 35, 29, 41, 59, 14, 17]
+(Iter. 3898) BestSol = Solution: cost=[-508.0], size=[25], elements=[44, 51, 4, 56, 26, 30, 24, 29, 35, 19, 2, 27, 42, 17, 14, 38, 33, 49, 3, 54, 55, 16, 59, 13, 43]
+ maxVal = Solution: cost=[-508.0], size=[25], elements=[44, 51, 4, 56, 26, 30, 24, 29, 35, 19, 2, 27, 42, 17, 14, 38, 33, 49, 3, 54, 55, 16, 59, 13, 43]
+Time = 1800.012 seg
+
+
+Execution time for all files: 1800.015seg 
+----------------------------------------------------- 
+ 
+
+Executing Tabu Search for file: instances/qbf060
+Configuration:
+ Tenure = 6
+ Tabu strategie = Standard
+ Local Search = First Improving
+ Stop Criterion = 30 minutes
+Execution:
+(Iter. 0) BestSol = Solution: cost=[-426.0], size=[29], elements=[28, 3, 17, 16, 11, 34, 40, 49, 26, 38, 44, 42, 21, 51, 56, 4, 55, 30, 12, 41, 24, 53, 35, 29, 59, 14, 46, 45, 47]
+(Iter. 1) BestSol = Solution: cost=[-455.0], size=[29], elements=[28, 3, 17, 16, 11, 34, 40, 49, 26, 38, 44, 42, 21, 51, 56, 4, 55, 30, 12, 41, 24, 53, 35, 29, 59, 14, 46, 45, 22]
+(Iter. 2) BestSol = Solution: cost=[-458.0], size=[29], elements=[28, 3, 17, 16, 11, 34, 49, 26, 38, 44, 42, 21, 51, 56, 4, 55, 30, 12, 41, 24, 53, 35, 29, 59, 14, 46, 45, 22, 20]
+(Iter. 3) BestSol = Solution: cost=[-469.0], size=[28], elements=[28, 3, 17, 16, 11, 34, 49, 26, 38, 44, 42, 21, 51, 56, 4, 55, 30, 12, 41, 24, 53, 35, 29, 59, 14, 46, 45, 22]
+(Iter. 5) BestSol = Solution: cost=[-470.0], size=[27], elements=[28, 3, 17, 16, 11, 34, 49, 26, 38, 44, 42, 21, 51, 56, 4, 55, 30, 12, 41, 24, 53, 35, 29, 59, 14, 46, 40]
+(Iter. 9) BestSol = Solution: cost=[-481.0], size=[25], elements=[3, 17, 16, 11, 34, 49, 26, 38, 44, 42, 51, 56, 4, 55, 30, 12, 41, 24, 53, 35, 29, 59, 14, 2, 27]
+(Iter. 10) BestSol = Solution: cost=[-482.0], size=[24], elements=[3, 17, 16, 11, 34, 49, 26, 38, 44, 42, 51, 56, 4, 55, 30, 12, 24, 53, 35, 29, 59, 14, 2, 27]
+(Iter. 11) BestSol = Solution: cost=[-496.0], size=[25], elements=[3, 17, 16, 11, 34, 49, 26, 38, 44, 42, 51, 56, 4, 55, 30, 12, 24, 53, 35, 29, 59, 14, 2, 27, 28]
+(Iter. 12) BestSol = Solution: cost=[-499.0], size=[26], elements=[3, 17, 16, 11, 34, 49, 26, 38, 44, 42, 51, 56, 4, 55, 30, 12, 24, 53, 35, 29, 59, 14, 2, 27, 28, 33]
+(Iter. 13) BestSol = Solution: cost=[-500.0], size=[27], elements=[3, 17, 16, 11, 34, 49, 26, 38, 44, 42, 51, 56, 4, 55, 30, 12, 24, 53, 35, 29, 59, 14, 2, 27, 28, 33, 45]
+(Iter. 622852) BestSol = Solution: cost=[-501.0], size=[26], elements=[38, 49, 44, 3, 4, 26, 45, 30, 29, 41, 24, 56, 35, 33, 27, 2, 51, 17, 16, 11, 55, 14, 59, 42, 19, 54]
+(Iter. 622853) BestSol = Solution: cost=[-503.0], size=[27], elements=[38, 49, 44, 3, 4, 26, 45, 30, 29, 41, 24, 56, 35, 33, 27, 2, 51, 17, 16, 11, 55, 14, 59, 42, 19, 54, 13]
+(Iter. 622857) BestSol = Solution: cost=[-508.0], size=[25], elements=[38, 49, 44, 3, 4, 26, 30, 29, 24, 56, 35, 33, 27, 2, 51, 17, 16, 55, 14, 59, 42, 19, 54, 13, 43]
+ maxVal = Solution: cost=[-508.0], size=[25], elements=[38, 49, 44, 3, 4, 26, 30, 29, 24, 56, 35, 33, 27, 2, 51, 17, 16, 55, 14, 59, 42, 19, 54, 13, 43]
+Time = 1800.012 seg
+
+
+Execution time for all files: 1800.015seg 
+----------------------------------------------------- 
+ 
+
+Executing Tabu Search for file: instances/qbf060
+Configuration:
+ Tenure = 12
+ Tabu strategie = Probabilistic
+ Local Search = First Improving
+ Stop Criterion = 30 minutes
+Execution:
+(Iter. 0) BestSol = Solution: cost=[-469.0], size=[27], elements=[28, 3, 17, 16, 11, 34, 49, 26, 38, 44, 42, 21, 51, 56, 4, 55, 30, 12, 41, 24, 29, 35, 53, 59, 14, 46, 22]
+(Iter. 5) BestSol = Solution: cost=[-470.0], size=[27], elements=[28, 3, 17, 16, 11, 34, 49, 26, 38, 44, 42, 21, 51, 56, 4, 55, 30, 24, 29, 35, 53, 59, 14, 22, 45, 23, 41]
+(Iter. 6) BestSol = Solution: cost=[-475.0], size=[27], elements=[28, 17, 16, 11, 34, 49, 26, 38, 44, 42, 21, 51, 56, 4, 55, 30, 24, 29, 35, 53, 59, 14, 22, 45, 23, 41, 46]
+(Iter. 7) BestSol = Solution: cost=[-490.0], size=[28], elements=[28, 17, 16, 11, 34, 49, 26, 38, 44, 42, 21, 51, 56, 4, 55, 30, 24, 29, 35, 53, 59, 14, 22, 45, 23, 41, 46, 3]
+(Iter. 1530139) BestSol = Solution: cost=[-491.0], size=[25], elements=[29, 30, 49, 24, 14, 41, 3, 17, 27, 33, 59, 35, 42, 19, 16, 51, 54, 48, 26, 2, 55, 56, 44, 4, 38]
+(Iter. 1530140) BestSol = Solution: cost=[-492.0], size=[25], elements=[29, 30, 49, 24, 14, 41, 3, 17, 27, 33, 59, 35, 42, 19, 16, 51, 54, 26, 2, 55, 56, 44, 4, 38, 45]
+(Iter. 1530141) BestSol = Solution: cost=[-496.0], size=[25], elements=[29, 30, 49, 24, 14, 41, 3, 17, 27, 33, 59, 35, 42, 19, 16, 51, 54, 26, 2, 55, 56, 44, 4, 38, 12]
+(Iter. 1530142) BestSol = Solution: cost=[-502.0], size=[25], elements=[29, 30, 49, 24, 14, 41, 3, 17, 27, 33, 59, 35, 42, 19, 16, 51, 54, 26, 2, 55, 56, 44, 4, 38, 13]
+ maxVal = Solution: cost=[-502.0], size=[25], elements=[29, 30, 49, 24, 14, 41, 3, 17, 27, 33, 59, 35, 42, 19, 16, 51, 54, 26, 2, 55, 56, 44, 4, 38, 13]
+Time = 1800.013 seg
+
+
+Execution time for all files: 1800.014seg 
+----------------------------------------------------- 
+ 
+
+Executing Tabu Search for file: instances/qbf060
+Configuration:
+ Tenure = 12
+ Tabu strategie = Diversification restart
+ Local Search = First Improving
+ Stop Criterion = 30 minutes
+Execution:
+(Iter. 0) BestSol = Solution: cost=[-469.0], size=[27], elements=[28, 3, 17, 16, 11, 34, 38, 26, 49, 44, 42, 21, 51, 56, 4, 55, 30, 12, 41, 24, 29, 35, 53, 59, 14, 46, 22]
+(Iter. 1) BestSol = Solution: cost=[-470.0], size=[27], elements=[28, 3, 17, 16, 11, 34, 38, 26, 49, 44, 42, 21, 51, 56, 4, 55, 30, 12, 41, 24, 29, 35, 53, 59, 14, 46, 40]
+(Iter. 4) BestSol = Solution: cost=[-476.0], size=[28], elements=[28, 3, 17, 16, 11, 34, 38, 26, 49, 44, 42, 21, 51, 56, 4, 55, 30, 41, 24, 29, 35, 53, 59, 14, 46, 40, 23, 22]
+(Iter. 5) BestSol = Solution: cost=[-480.0], size=[29], elements=[28, 3, 17, 16, 11, 34, 38, 26, 49, 44, 42, 21, 51, 56, 4, 55, 30, 41, 24, 29, 35, 53, 59, 14, 46, 40, 23, 22, 45]
+(Iter. 6) BestSol = Solution: cost=[-490.0], size=[28], elements=[28, 3, 17, 16, 11, 34, 38, 26, 49, 44, 42, 21, 51, 56, 4, 55, 30, 41, 24, 29, 35, 53, 59, 14, 46, 23, 22, 45]
+DIVERSIFICOU 0.5000166666666667 467470
+DIVERSIFICOU 1.0000333333333333 911120
+DIVERSIFICOU 1.50005 1248326
+DIVERSIFICOU 2.0000666666666667 1634101
+DIVERSIFICOU 2.5000833333333334 1977765
+DIVERSIFICOU 3.0001 2356316
+DIVERSIFICOU 3.5001166666666665 2763719
+DIVERSIFICOU 4.000133333333333 3152623
+DIVERSIFICOU 4.5001500000000005 3507162
+DIVERSIFICOU 5.000166666666667 4006098
+DIVERSIFICOU 5.500183333333334 4427757
+DIVERSIFICOU 6.0002 4750723
+DIVERSIFICOU 6.500216666666666 5070520
+DIVERSIFICOU 7.000233333333333 5416704
+DIVERSIFICOU 7.500249999999999 5829172
+DIVERSIFICOU 8.000266666666667 6314644
+DIVERSIFICOU 8.500283333333334 6884296
+DIVERSIFICOU 9.000300000000001 7366736
+DIVERSIFICOU 9.500316666666667 7606056
+DIVERSIFICOU 10.000333333333334 8085482
+DIVERSIFICOU 10.50035 8446077
+DIVERSIFICOU 11.000366666666668 8996793
+DIVERSIFICOU 11.500383333333334 9516278
+DIVERSIFICOU 12.0004 9865113
+DIVERSIFICOU 12.500483333333333 10311966
+DIVERSIFICOU 13.000499999999999 10787609
+DIVERSIFICOU 13.500516666666666 11345475
+DIVERSIFICOU 14.000533333333333 11883517
+DIVERSIFICOU 14.50055 12472372
+DIVERSIFICOU 15.000566666666666 12857872
+(Iter. 13023787) BestSol = Solution: cost=[-501.0], size=[26], elements=[35, 17, 30, 41, 54, 29, 24, 44, 38, 26, 56, 42, 4, 51, 55, 16, 2, 33, 11, 49, 19, 59, 45, 3, 27, 14]
+(Iter. 13023788) BestSol = Solution: cost=[-503.0], size=[27], elements=[35, 17, 30, 41, 54, 29, 24, 44, 38, 26, 56, 42, 4, 51, 55, 16, 2, 33, 11, 49, 19, 59, 45, 3, 27, 14, 13]
+DIVERSIFICOU 15.500583333333333 13145381
+DIVERSIFICOU 16.0006 13588580
+DIVERSIFICOU 16.500616666666666 13985043
+DIVERSIFICOU 17.000633333333333 14287308
+DIVERSIFICOU 17.50068333333333 14595651
+DIVERSIFICOU 18.0007 15016521
+DIVERSIFICOU 18.500716666666666 15514820
+DIVERSIFICOU 19.000733333333336 15885307
+DIVERSIFICOU 19.50075 16295621
+DIVERSIFICOU 20.000766666666667 16650300
+DIVERSIFICOU 20.500783333333334 17041376
+DIVERSIFICOU 21.0008 17382374
+DIVERSIFICOU 21.500816666666665 17797872
+DIVERSIFICOU 22.000833333333333 18245167
+DIVERSIFICOU 22.50085 18593306
+DIVERSIFICOU 23.000866666666663 18903907
+DIVERSIFICOU 23.500883333333334 19163786
+DIVERSIFICOU 24.0009 19457968
+DIVERSIFICOU 24.50091666666667 19707432
+DIVERSIFICOU 25.000933333333332 20214965
+DIVERSIFICOU 25.50095 20627038
+DIVERSIFICOU 26.000966666666667 21058816
+DIVERSIFICOU 26.500983333333334 21481867
+DIVERSIFICOU 27.001066666666667 21865579
+DIVERSIFICOU 27.501083333333334 22260128
+DIVERSIFICOU 28.0011 22449491
+DIVERSIFICOU 28.501116666666668 22691690
+DIVERSIFICOU 29.001133333333332 23018849
+DIVERSIFICOU 29.50115 23451970
+ maxVal = Solution: cost=[-503.0], size=[27], elements=[35, 17, 30, 41, 54, 29, 24, 44, 38, 26, 56, 42, 4, 51, 55, 16, 2, 33, 11, 49, 19, 59, 45, 3, 27, 14, 13]
+Time = 1800.002 seg
+
+
+Execution time for all files: 1800.002seg 
+----------------------------------------------------- 
